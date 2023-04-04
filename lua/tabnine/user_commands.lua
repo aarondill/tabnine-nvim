@@ -15,7 +15,7 @@ function M.setup()
 		end)
 	end, {})
 
-	api.nvim_create_user_command("TabnineComplete", completion.complete)
+	api.nvim_create_user_command("TabnineComplete", completion.complete, {})
 end
 
 return M
