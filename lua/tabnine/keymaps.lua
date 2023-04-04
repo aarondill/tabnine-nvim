@@ -26,7 +26,7 @@ function M.setup()
 		end)
 	end, { expr = true })
 
-	vim.keymap.set("i", complete_keymap, completion.complete, { expr = true })
+	vim.keymap.set("i", complete_keymap, function() completion.complete() end, { expr = true })
 end
 
 return M
