@@ -19,16 +19,14 @@ jobs:
           ]
 
     steps:
-      - name: add gtk
-        run: sudo apt-get install -y libgtk-3-dev libglib2.0-dev
       - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - name: rust-cargo
+        uses: actions-rs/cargo@v1.0.1
         with:
-          toolchain: 1.70.0
-          target: ${{ matrix.target }}
-      - uses: ClementTsang/cargo-action@v0.0.3
-        with:
+          # Cargo command to run (ex. `check` or `build`)
           command: build
+          toolchain: 1.70
+          # Arguments for the cargo command
           args: --release --target=${{ matrix.target }}
+          # Use cross instead of cargo
           use-cross: true
-          directory: "./chat"
