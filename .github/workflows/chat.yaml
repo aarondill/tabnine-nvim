@@ -14,7 +14,6 @@ jobs:
         target:
           [
             x86_64-unknown-linux-musl,
-            aarch64-apple-darwin,
             x86_64-apple-darwin,
             x86_64-pc-windows-gnu,
             i686-pc-windows-gnu,
@@ -26,8 +25,9 @@ jobs:
         with:
           toolchain: 1.70.0
           target: ${{ matrix.target }}
-      - uses: actions-rs/cargo@v1.0.1
+      - uses: ClementTsang/cargo-action@v0.0.3
         with:
           command: build
           args: --release --target=${{ matrix.target }}
           use-cross: true
+          directory: "./chat"
