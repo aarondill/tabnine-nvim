@@ -1,6 +1,5 @@
 use image::ImageFormat;
 use once_cell::sync::Lazy;
-use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{
     env,

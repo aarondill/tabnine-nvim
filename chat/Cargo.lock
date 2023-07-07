@@ -1949,7 +1949,6 @@ version = "0.1.0"
 dependencies = [
  "image",
  "once_cell",
- "regex",
  "serde",
  "serde_json",
  "wry",
