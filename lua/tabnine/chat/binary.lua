@@ -56,6 +56,9 @@ function ChatBinary:start()
 		if chunk then
 			for _, line in pairs(utils.str_to_lines(chunk)) do
 				local message = vim.json.decode(line)
+				if not message or message == vim.NIL then
+					return
+				end
 				local handler = self.registry[message.command]
 				if handler then
 					handler(message.data, function(payload)
