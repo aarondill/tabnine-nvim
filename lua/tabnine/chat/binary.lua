@@ -90,7 +90,9 @@ function ChatBinary:register_event(event, handler)
 end
 
 function ChatBinary:post_message(message)
-	uv.write(self.stdin, json.encode(message) .. "\n")
+	if self.stdin then -- Should we start here if not yet started?
+		uv.write(self.stdin, json.encode(message) .. "\n")
+	end
 end
 
 return ChatBinary:new()
