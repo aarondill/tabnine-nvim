@@ -34,13 +34,7 @@ const BASE_URL: &str = "wry://localhost";
 
 static INDEX_HTML: Lazy<String> = Lazy::new(|| {
     let index_html = read(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("./assets/index.html")).unwrap();
-    Regex::new("(href|src)=\"/static")
-        .unwrap()
-        .replace_all(
-            &String::from_utf8(index_html).unwrap(),
-            format!("$1=\"{BASE_URL}/assets/static"),
-        )
-        .to_string()
+    String::from_utf8(index_html).unwrap()
 });
 
 static ICON: Lazy<Icon> = Lazy::new(|| {
@@ -68,7 +62,7 @@ fn main() -> wry::Result<()> {
                 INDEX_HTML.as_bytes().into()
             } else {
                 read(canonicalize(
-                    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(&path[1..]),
+                    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("./assets").join(&path[1..]),
                 )?)?
                 .into()
             };
