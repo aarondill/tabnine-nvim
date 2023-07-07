@@ -2,8 +2,8 @@
 set -e
 
 TABNINE_UPDATE_SERVICE=${1:-"https://update.tabnine.com"}
-DEPENDS='unzip curl' # list of dependencies (commands)
-HAS_ALL_DEPS=1       # 1 = present, 0 = missing
+DEPENDS='unzip curl grep awk tr' # list of dependencies (commands)
+HAS_ALL_DEPS=1                   # 1 = present, 0 = missing
 for dep in ${DEPENDS}; do
   if ! command -v "$dep" >/dev/null 2>/dev/null; then # if command not accessible
     echo "ERROR: $dep is required to download Tabnine binaries. Please install $dep and run this again." >&2
@@ -51,3 +51,27 @@ echo "$targets" | while read -r target; do
   rm "binaries/$path/TabNine.zip"
   chmod +x "binaries/$path/"*
 done
+
+# ---------------- DOWNLOAD CHAT ----------------
+
+echo "downloading tabnine-chat"
+CHAT_REPO="https://github.com/codota/tabnine-vscode"
+version=$(curl -sfI "$CHAT_REPO/releases/latest" | grep -i "location:" | awk -F"/" '{ printf "%s", $NF }' | tr -d '\r')
+if [ -z "$version" ]; then
+  echo "Failed to get version to install tabnine-chat." >&2
+  exit 1
+fi
+
+tmp_dir=$(mktemp -d)
+trap 'rm -f "$tmp_dir"' EXIT
+
+# This is safe to treat as a .zip file:
+# https://learn.microsoft.com/en-us/visualstudio/extensibility/preparing-extensions-for-windows-installer-deployment?view=vs-2022#to-extract-files-from-an-existing-vsix-package
+asset=tabnine-vscode.vsix
+
+curl -SsLf "$CHAT_REPO/releases/download/$version/$asset" -o "$tmp_dir/$asset"
+unzip -q "$tmp_dir/$asset" -d "$tmp_dir/tabnine-vscode/"
+if [ -d chat/assets ]; then rm -rf chat/assets; fi
+mv -f -T "$tmp_dir/tabnine-vscode/extension/chat/" "chat/assets/"
+
+rm -f "$TMP" && trap '' EXIT # Cleanup

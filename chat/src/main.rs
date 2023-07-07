@@ -33,12 +33,12 @@ const WINDOW_TITLE: &str = "Tabnine Chat";
 const BASE_URL: &str = "wry://localhost";
 
 static INDEX_HTML: Lazy<String> = Lazy::new(|| {
-    let index_html = read(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("./index.html")).unwrap();
+    let index_html = read(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("./assets/index.html")).unwrap();
     Regex::new("(href|src)=\"/static")
         .unwrap()
         .replace_all(
             &String::from_utf8(index_html).unwrap(),
-            format!("$1=\"{BASE_URL}/static"),
+            format!("$1=\"{BASE_URL}/assets/static"),
         )
         .to_string()
 });
