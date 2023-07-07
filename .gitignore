@@ -1,5 +1,5 @@
-binaries/*
-doc/tags
+/binaries/*
+/doc/tags
 
 **.DS_Store
 .disabled
@@ -10,9 +10,6 @@ auth
 .idea/
 *.iml
 
-
-# Added by cargo
-
-target/
-
+/chat/target/
+/chat/assets/
 chat_state.json
