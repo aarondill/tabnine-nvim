@@ -69,8 +69,10 @@ fn main() -> wry::Result<()> {
 
             let mimetype = if path.ends_with(".html") || path == "/" {
                 "text/html"
-            } else if path.ends_with(".js") {
+            } else if path.ends_with(".js") || path.ends_with(".mjs")|| path.ends_with(".cjs"){
                 "text/javascript"
+            } else if path.ends_with(".css") {
+                "text/css"
             } else {
                 unimplemented!();
             };
