@@ -95,8 +95,10 @@ function ChatBinary:register_event(event, handler)
 end
 
 function ChatBinary:post_message(message)
-	if self.stdin then -- Should we start here if not yet started?
+	if self.stdin then
 		uv.write(self.stdin, json.encode(message) .. "\n")
+	else
+		vim.notify("tabnine chat not found, did you remember to start it first?", vim.log.levels.WARN)
 	end
 end
 
